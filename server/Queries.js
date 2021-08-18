@@ -11,14 +11,21 @@ emails().then(
     r.map(doc => doc.emails?.[0].address).map(email => email).forEach(email => {
       console.log('Searching: ', email)
 
-      if (true) { // switch here to use one or the other
-        let query = selectorForFastCaseInsensitiveLookup('emails.address', email)
-        timeQuery('Selector For Fast Case Insensitive Lookup', query)
-      } else {
+      if (true) { // true for the exact email for when user can only save small caps emails
         let query = {
-          'emails.address': { $regex: email, $options: 'i' }
+          'emails.address': email
         }
-        timeQuery('Case Insensitive Regexp', query)
+        timeQuery('Exact email', query)
+      } else {
+        if (true) { // switch here to use one or the other
+          let query = selectorForFastCaseInsensitiveLookup('emails.address', email)
+          timeQuery('Selector For Fast Case Insensitive Lookup', query)
+        } else {
+          let query = {
+            'emails.address': { $regex: email, $options: 'i' }
+          }
+          timeQuery('Case Insensitive Regexp', query)
+        }
       }
     })
   }
