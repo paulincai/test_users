@@ -8,7 +8,7 @@ const emails = async () => {
 emails().then(
   r => {
     console.log({ r })
-    r.map(doc => doc.emails?.[0].address).map(email => email).forEach(email => {
+    r.map(doc => doc.emails?.[0].address).forEach(email => {
       console.log('Searching: ', email)
 
       if (true) { // true for the exact email for when user can only save small caps emails
